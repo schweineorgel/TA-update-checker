@@ -17,9 +17,9 @@ MAIL_SERVER = "smtp.gmail.com"
 MAIL_PORT = 587
 
 # email
-MAIL_USER = "mail"
+MAIL_USER = "mail@ejemplo.cl"
 MAIL_PASSWORD = "pass"
-MAIL_TO = ["mail1@ejemplo.com", "mail2@ejemplo.com"]
+MAIL_TO = ["mail1@ejemplo.cl", "mail2@ejemplo.cl"]
 # ----------------------------
 # Funcion de Email
 # ----------------------------
@@ -28,7 +28,7 @@ def send_email(version):
     msg = EmailMessage()
     msg["Subject"] = f"Nueva versión de Trimble Access disponible: {version}"
     msg["From"] = MAIL_USER
-    msg["To"] = MAIL_TO
+    msg["To"] = ", ".join(MAIL_TO)
 
     msg.set_content(
         f"""
