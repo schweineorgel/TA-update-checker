@@ -19,7 +19,7 @@ MAIL_PORT = 587
 # email
 MAIL_USER = "mail"
 MAIL_PASSWORD = "pass"
-MAIL_TO = "mail"
+MAIL_TO = ["mail1@ejemplo.com", "mail2@ejemplo.com"]
 # ----------------------------
 # Funcion de Email
 # ----------------------------
@@ -49,7 +49,7 @@ Este mensaje ha sido generado automáticamente.
     with smtplib.SMTP(MAIL_SERVER, MAIL_PORT, timeout=30) as smtp:
         smtp.starttls()
         smtp.login(MAIL_USER, MAIL_PASSWORD)
-        smtp.send_message(msg)
+        smtp.send_message(msg, from_addr=MAIL_USER, to_addrs=MAIL_TO)
 
 
 # ----------------------------
@@ -71,14 +71,14 @@ def get_latest_version():
     soup = BeautifulSoup(r.text, "html.parser")
     text = soup.get_text(" ", strip=True)
 
-    matches = re.findall(r"\b20\d{2}\.\d+\b", text)
+    matches = [m.strip() for m in re.findall(r"\b20\d{2}\.\d+\b", text)]
 
     if not matches:
         raise RuntimeError(
             "No se pudo determinar la última versión."
         )
 
-    latest = max(matches)
+    latest = max(matches, key=lambda v: tuple(map(int, v.split("."))))
 
     return latest
 
